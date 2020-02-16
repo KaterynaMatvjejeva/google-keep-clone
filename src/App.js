@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useMemo } from 'react'
+import firebase from 'firebase'
+import AppContext from './AppContext'
+import appReducer, { initialState, APP_ACTIONS } from './appReducer'
+import Routes from './Routes'
 
-function App() {
+function App () {
+  const [state, dispatch] = useReducer(appReducer, initialState)
+  useMemo(() => {
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      firebaseUser
+        ? dispatch({
+          type: APP_ACTIONS.USER_AUTHORIZED,
+          payload: firebase.auth().currentUser
+        })
+        : dispatch({
+          type: APP_ACTIONS.USER_LOGED_OUT
+        })
+    })
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AppContext.Provider value={[state, dispatch]}>
+      <Routes />
+    </AppContext.Provider>
+  )
 }
 
-export default App;
+export default App
