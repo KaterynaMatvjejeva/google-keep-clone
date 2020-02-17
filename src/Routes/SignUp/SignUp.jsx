@@ -1,12 +1,11 @@
 import React, { useContext, useState, createRef } from 'react'
 import firebase from 'firebase'
-import { redirectTo } from '@reach/router'
+import { Redirect } from '@reach/router'
 import AppContext from '../../AppContext'
 
 export default function SignUp (props) {
   const [{ userAuthorized }] = useContext(AppContext)
   const [error, setError] = useState(false)
-  const [redirectToSignIn, setRedirectToSignIn] = useState(false)
   const email = createRef()
   const passwordOne = createRef()
   const passwordTwo = createRef()
@@ -14,44 +13,37 @@ export default function SignUp (props) {
   const isValid = () => {
     return (
       passwordOne.current.value === passwordTwo.current.value &&
-      /[\w?!.,-_+=]{6,}/.test(passwordOne.current.value) &&
-      /[\w@.]{6,}/.test(email.current.value)
+      /[\w?!.,-_+=]{6,15}/.test(passwordOne.current.value) &&
+      /[\w@.]{6,15}/.test(email.current.value)
     )
   }
 
   const onSubmitHandler = e => {
     e.preventDefault()
     if (isValid()) {
-      setError(false)
-      firebase.auth()
-        .createUserWithEmailAndPassword(
-          email.current.value,
-          passwordOne.current.value)
-        .then(authUser => {
-          alert('User is created') // create user collection
-          setRedirectToSignIn(true)
-          console.log(authUser)
-        })
-        .catch(({ code, message }) => {
-          if (code === 'auth/email-already-in-use') {
-            alert('The email address is already in use by another account.')
-            email.current.value = ''
-          }
-        })
-
-      return
+      try {
+        setError(false)
+        firebase.auth()
+          .createUserWithEmailAndPassword(
+            email.current.value,
+            passwordOne.current.value)
+        alert('User is created')
+        // firebase.database().push().push().set({ [newUser]: { notes: {firstnote: 'firstnote'} }});
+        // create user collection
+      } catch ({ code, message }) {
+        if (code === 'auth/email-already-in-use') {
+          alert(message)
+          email.current.value = ''
+        }
+      }
+    } else {
+      setError('Check your data')
     }
-
-    setError('Check your data')
-  }
-
-  if (redirectToSignIn) {
-    return redirectTo('sign_up')
   }
 
   if (userAuthorized) {
-    alert('You have already signed in')
-    return redirectTo('my_notes')
+    alert('You was signed in')
+    return <Redirect to="/notes" noThrow/>
   }
 
   return (

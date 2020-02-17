@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import firebase from 'firebase'
 import AppContext from './AppContext'
 import appReducer, { initialState, APP_ACTIONS } from './appReducer'
@@ -6,7 +6,7 @@ import Routes from './Routes'
 
 function App () {
   const [state, dispatch] = useReducer(appReducer, initialState)
-  useMemo(() => {
+  useEffect(() => {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       firebaseUser
         ? dispatch({

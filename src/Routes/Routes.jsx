@@ -4,6 +4,7 @@ import { Router } from '@reach/router'
 import Home from './Home'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import Notes from './Notes'
 import NotFound from './NotFound'
 
 const Routes = () => (
@@ -11,6 +12,7 @@ const Routes = () => (
     <Home path='/' />
     <SignIn path='/sign_in' />
     <SignUp path='/sign_up' />
+    <Notes path='notes' />
     <NotFound default />
   </Router>
 )
