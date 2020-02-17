@@ -1,22 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase'
-
-const uiConfig = {
-  signInFlow: 'popup',
-  signInSuccessUrl: '/',
-  signInOptions: [
-    firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID
-  ]
-}
+import AppContext from '../../AppContext'
 
 export default function SignIn (props) {
+  const [{ FB }] = useContext(AppContext)
   return (
     <div>
       <p>Please sign-in:</p>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+      <StyledFirebaseAuth uiConfig={FB.uiConfig} firebaseAuth={FB.auth()}/>
     </div>
   )
 }

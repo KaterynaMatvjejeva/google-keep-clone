@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import { Link } from '@reach/router'
-import firebase from 'firebase'
 import AppContext from '../../AppContext'
 
 const Home = () => {
-  const [{ userAuthorized }] = useContext(AppContext)
+  const [{ userAuthorized, email, FB }] = useContext(AppContext)
 
   if (!userAuthorized) {
     return (
@@ -18,8 +17,8 @@ const Home = () => {
   return (
     <div>
       <Link to='/notes'>Go to your notes</Link>
-      <p>Welcome {firebase.auth().currentUser.email}! You are now signed-in!</p>
-      <button onClick={() => firebase.auth().signOut()}>Sign-out</button>
+      <p>Welcome {email}! You are now signed-in!</p>
+      <button onClick={() => FB.signOut()}>Sign-out</button>
     </div>
   )
 }

@@ -1,10 +1,9 @@
 import React, { useContext, useState, createRef } from 'react'
-import firebase from 'firebase'
 import { Redirect } from '@reach/router'
 import AppContext from '../../AppContext'
 
 export default function SignUp (props) {
-  const [{ userAuthorized }] = useContext(AppContext)
+  const [{ userAuthorized, FB }] = useContext(AppContext)
   const [error, setError] = useState(false)
   const email = createRef()
   const passwordOne = createRef()
@@ -23,10 +22,9 @@ export default function SignUp (props) {
     if (isValid()) {
       try {
         setError(false)
-        firebase.auth()
-          .createUserWithEmailAndPassword(
-            email.current.value,
-            passwordOne.current.value)
+        FB.signUp(
+          email.current.value,
+          passwordOne.current.value)
         alert('User is created')
         // firebase.database().push().push().set({ [newUser]: { notes: {firstnote: 'firstnote'} }});
         // create user collection

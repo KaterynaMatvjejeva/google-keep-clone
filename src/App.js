@@ -1,17 +1,18 @@
 import React, { useReducer, useEffect } from 'react'
-import firebase from 'firebase'
 import AppContext from './AppContext'
 import appReducer, { initialState, APP_ACTIONS } from './appReducer'
 import Routes from './Routes'
 
+const { FB } = initialState
+
 function App () {
   const [state, dispatch] = useReducer(appReducer, initialState)
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(firebaseUser => {
+    FB.setAuthEventLisener(firebaseUser => {
       firebaseUser
         ? dispatch({
           type: APP_ACTIONS.USER_AUTHORIZED,
-          payload: firebase.auth().currentUser
+          payload: FB.getCurrentUser
         })
         : dispatch({
           type: APP_ACTIONS.USER_LOGED_OUT

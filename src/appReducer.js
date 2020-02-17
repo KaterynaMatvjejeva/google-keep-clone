@@ -1,4 +1,7 @@
+import FireBase from './firebase'
+
 export const initialState = {
+  FB: new FireBase(),
   userAuthorized: false,
   notes: {}
 }
