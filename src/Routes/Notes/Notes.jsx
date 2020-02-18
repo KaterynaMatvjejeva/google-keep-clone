@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { Redirect } from '@reach/router'
+import { Link } from '@reach/router'
 import AppContext from '../../AppContext'
 import { APP_ACTIONS } from '../../appReducer'
 import Popup from '../../library/components/Popup'
+import Home from '../Home'
 
 export default function Notes (props) {
   const [{ notes, userAuthorized, FB }, dispatch] = useContext(AppContext)
@@ -56,12 +57,15 @@ export default function Notes (props) {
     ))
 
   if (!userAuthorized) {
-    return <Redirect to="/sign_in" noThrow/>
+    return <Home />
   }
 
   return (
     <>
+      <h1>Your notes</h1>
       <button onClick={createButtonCb}>Create note</button>
+      <button><Link to='/'>Go Back to Homepage</Link></button>
+      <button onClick={() => FB.signOut()}>Sign-out</button>
       {!notesIds.length
         ? <div>You do not have any notes</div>
         : <NotesList />}

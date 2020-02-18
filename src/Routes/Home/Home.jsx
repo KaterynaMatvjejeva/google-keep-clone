@@ -8,17 +8,19 @@ const Home = () => {
   if (!userAuthorized) {
     return (
       <div>
-        <h1>You are on homepage of Note App</h1>
-        <Link to='/sign_in'>Go to Sign in</Link>
-        <Link to='/sign_up'>Go to Create Account</Link>
+        <h1>Notes Keep App</h1>
+        <p>To continue:</p>
+        <button><Link to='/sign_in'>Go to Sign in</Link></button>
+        <button><Link to='/sign_up'>Go to Create Account</Link></button>
       </div>
     )
   }
   return (
     <div>
-      <Link to='/notes'>Go to your notes</Link>
-      <p>Welcome {email}! You are now signed-in!</p>
+      <h1>Notes Keep App</h1>
+      <button><Link to='/notes'>Go to your notes</Link></button>
       <button onClick={() => FB.signOut()}>Sign-out</button>
+      <p>Welcome {email}! You are now signed-in!</p>
     </div>
   )
 }

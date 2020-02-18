@@ -3,7 +3,7 @@ import { Redirect } from '@reach/router'
 import AppContext from '../../AppContext'
 
 export default function SignUp (props) {
-  const [{ userAuthorized, emeil, FB }] = useContext(AppContext)
+  const [{ userAuthorized, FB }] = useContext(AppContext)
   const [error, setError] = useState(false)
   const email = createRef()
   const passwordOne = createRef()
@@ -19,6 +19,8 @@ export default function SignUp (props) {
 
   const onSubmitHandler = e => {
     e.preventDefault()
+    setError(null)
+
     if (isValid()) {
       try {
         setError(false)
@@ -34,7 +36,7 @@ export default function SignUp (props) {
         }
       }
     } else {
-      setError('Check your data')
+      setError('Check is your data correct')
     }
   }
 

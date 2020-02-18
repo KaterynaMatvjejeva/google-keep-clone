@@ -7,8 +7,7 @@ export default class FireBase {
       signInSuccessUrl: '/',
       signInOptions: [
         firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
       ]
     }
   }
@@ -40,18 +39,15 @@ export default class FireBase {
 
   updateNote (note) {
     const noteId = Object.keys(note)[0]
-    if(this.uid) firebase.firestore().collection(this.uid).doc(noteId).set({ ...note[noteId], noteId }, {merge: true})
+    firebase.firestore().collection(this.uid).doc(noteId).set({ ...note[noteId], noteId }, { merge: true })
   }
 
   deleteNote (noteId) {
-    if(this.uid) firebase.firestore().collection(this.uid).doc(noteId).delete()
+    firebase.firestore().collection(this.uid).doc(noteId).delete()
   }
 
   async getAllNotes () {
-    if(!this.uid) return
     const snapshot = await firebase.firestore().collection(this.uid).get()
-    const res =  snapshot.docs.map(doc => doc.data())
-    console.log('res', res)
-    return res
+    return snapshot.docs.map(doc => doc.data())
   }
 }
