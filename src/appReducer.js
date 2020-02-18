@@ -16,9 +16,10 @@ export const APP_ACTIONS = {
 }
 
 const appReducer = (prevState, action) => {
-  let notes
+  let notes = {}
   switch (action.type) {
     case APP_ACTIONS.USER_AUTHORIZED:
+      initialState.FB.setUid(action.payload.uid)
       return {
         ...prevState,
         uid: action.payload.uid,
@@ -30,9 +31,11 @@ const appReducer = (prevState, action) => {
         ...initialState
       }
     case APP_ACTIONS.SET_NOTES:
+      console.log('set', action.payload)
+      action.payload.forEach(({noteId, ...rest}) => notes[noteId] = rest)
       return {
         ...prevState,
-        notes: action.payload
+        notes
       }
     case APP_ACTIONS.UPDATE_NOTE:
       notes = {

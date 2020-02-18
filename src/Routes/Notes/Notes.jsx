@@ -5,7 +5,7 @@ import { APP_ACTIONS } from '../../appReducer'
 import Popup from '../../library/components/Popup'
 
 export default function Notes (props) {
-  const [{ notes, userAuthorized }, dispatch] = useContext(AppContext)
+  const [{ notes, userAuthorized, FB }, dispatch] = useContext(AppContext)
   const [noteId, setNoteId] = useState('')
   const [showPopup, setShowPopup] = useState(false)
 
@@ -23,6 +23,7 @@ export default function Notes (props) {
       type: APP_ACTIONS.UPDATE_NOTE,
       payload
     })
+    FB.updateNote(payload)
   }
 
   const editButtonCb = e => {
@@ -40,6 +41,7 @@ export default function Notes (props) {
       type: APP_ACTIONS.DELETE_NOTE,
       payload: uuid
     })
+    FB.deleteNote(uuid)
   }
 
   const NotesList = () =>

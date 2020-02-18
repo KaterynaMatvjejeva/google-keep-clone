@@ -33,4 +33,25 @@ export default class FireBase {
     firebase.auth()
       .createUserWithEmailAndPassword(email, pass)
   }
+
+  setUid (uid) {
+    this.uid = uid
+  }
+
+  updateNote (note) {
+    const noteId = Object.keys(note)[0]
+    if(this.uid) firebase.firestore().collection(this.uid).doc(noteId).set({ ...note[noteId], noteId }, {merge: true})
+  }
+
+  deleteNote (noteId) {
+    if(this.uid) firebase.firestore().collection(this.uid).doc(noteId).delete()
+  }
+
+  async getAllNotes () {
+    if(!this.uid) return
+    const snapshot = await firebase.firestore().collection(this.uid).get()
+    const res =  snapshot.docs.map(doc => doc.data())
+    console.log('res', res)
+    return res
+  }
 }

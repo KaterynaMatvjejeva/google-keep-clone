@@ -3,7 +3,7 @@ import { Redirect } from '@reach/router'
 import AppContext from '../../AppContext'
 
 export default function SignUp (props) {
-  const [{ userAuthorized, FB }] = useContext(AppContext)
+  const [{ userAuthorized, emeil, FB }] = useContext(AppContext)
   const [error, setError] = useState(false)
   const email = createRef()
   const passwordOne = createRef()
@@ -25,9 +25,8 @@ export default function SignUp (props) {
         FB.signUp(
           email.current.value,
           passwordOne.current.value)
+
         alert('User is created')
-        // firebase.database().push().push().set({ [newUser]: { notes: {firstnote: 'firstnote'} }});
-        // create user collection
       } catch ({ code, message }) {
         if (code === 'auth/email-already-in-use') {
           alert(message)
@@ -45,8 +44,6 @@ export default function SignUp (props) {
   }
 
   return (
-    // place in separate component ?
-    // simplify this file
     <form onSubmit={onSubmitHandler}>
       <input
         name="email"

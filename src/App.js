@@ -8,15 +8,22 @@ const { FB } = initialState
 function App () {
   const [state, dispatch] = useReducer(appReducer, initialState)
   useEffect(() => {
-    FB.setAuthEventLisener(firebaseUser => {
-      firebaseUser
-        ? dispatch({
+    FB.setAuthEventLisener(async firebaseUser => {
+      if (firebaseUser){
+        dispatch({
           type: APP_ACTIONS.USER_AUTHORIZED,
-          payload: FB.getCurrentUser
+          payload: FB.getCurrentUser()
         })
-        : dispatch({
-          type: APP_ACTIONS.USER_LOGED_OUT
-        })
+       const notes = await FB.getAllNotes()
+       dispatch({
+        type: APP_ACTIONS.SET_NOTES,
+        payload: notes
+      })
+      return
+      }
+      dispatch({
+        type: APP_ACTIONS.USER_LOGED_OUT
+      })
     })
   }, [])
 
