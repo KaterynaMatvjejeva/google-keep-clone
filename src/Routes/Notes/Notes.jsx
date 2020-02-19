@@ -4,6 +4,7 @@ import AppContext from '../../AppContext'
 import { APP_ACTIONS } from '../../appReducer'
 import Popup from '../../library/components/Popup'
 import Home from '../Home'
+import { TextContainer, NoteContainer, NotesContainer } from './styles'
 
 export default function Notes (props) {
   const [{ notes, userAuthorized, FB }, dispatch] = useContext(AppContext)
@@ -19,7 +20,6 @@ export default function Notes (props) {
   }
 
   const submitButtonCb = payload => {
-    // send update to db (usernme from context)
     dispatch({
       type: APP_ACTIONS.UPDATE_NOTE,
       payload
@@ -47,13 +47,14 @@ export default function Notes (props) {
 
   const NotesList = () =>
     notesIds.map(key => (
-      <div key={key} data-key={key}>
-        {/* note template -> lib comp */}
-        <h3>{notes[key].title}</h3>
-        <p>{notes[key].body}</p>
+      <NoteContainer key={key} data-key={key}>
+        <TextContainer>
+          <h3>{notes[key].title}</h3>
+          <p>{notes[key].body}</p>
+        </TextContainer>
         <button onClick={editButtonCb}>Edit</button>
         <button onClick={deleteButtonCb}>Delete</button>
-      </div>
+      </NoteContainer>
     ))
 
   if (!userAuthorized) {
@@ -68,7 +69,11 @@ export default function Notes (props) {
       <button onClick={() => FB.signOut()}>Sign-out</button>
       {!notesIds.length
         ? <div>You do not have any notes</div>
-        : <NotesList />}
+        : (
+          <NotesContainer>
+            <NotesList />
+          </NotesContainer>
+        )}
       <Popup
         setShowPopup={setShowPopup}
         showPopup={showPopup}

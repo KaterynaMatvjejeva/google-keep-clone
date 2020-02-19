@@ -1,6 +1,7 @@
 import React, { useContext, useState, createRef } from 'react'
-import { Redirect } from '@reach/router'
+import { Redirect, Link } from '@reach/router'
 import AppContext from '../../AppContext'
+import { Form } from './styles'
 
 export default function SignUp (props) {
   const [{ userAuthorized, FB }] = useContext(AppContext)
@@ -46,27 +47,34 @@ export default function SignUp (props) {
   }
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <input
-        name="email"
-        ref={email}
-        type="text"
-        placeholder="Email Address"
-      />
-      <input
-        name="passwordOne"
-        ref={passwordOne}
-        type="password"
-        placeholder="Password"
-      />
-      <input
-        name="passwordTwo"
-        ref={passwordTwo}
-        type="password"
-        placeholder="Confirm Password"
-      />
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <>
+      <h2>Fill your details for Sign Up</h2>
+      <button><Link to='/'>Go to Homepage</Link></button>
+      <Form onSubmit={onSubmitHandler}>
+        <p>Email:</p>
+        <input
+          name="email"
+          ref={email}
+          type="text"
+          placeholder="Email Address"
+        />
+        <p>Password (should be at least 6 symbols):</p>
+        <input
+          name="passwordOne"
+          ref={passwordOne}
+          type="password"
+          placeholder="Password"
+        />
+        <p>Confirm your password:</p>
+        <input
+          name="passwordTwo"
+          ref={passwordTwo}
+          type="password"
+          placeholder="Confirm Password"
+        />
+        <button type="submit">Sign Up</button>
+        {error && <p>{error}</p>}
+      </Form>
+    </>
   )
 }

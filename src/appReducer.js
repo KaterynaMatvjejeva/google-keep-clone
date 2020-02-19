@@ -31,8 +31,9 @@ const appReducer = (prevState, action) => {
         ...initialState
       }
     case APP_ACTIONS.SET_NOTES:
-      console.log('set', action.payload)
-      action.payload.forEach(({noteId, ...rest}) => notes[noteId] = rest)
+      action.payload.forEach(({ noteId, ...rest }) => {
+        notes[noteId] = rest
+      })
       return {
         ...prevState,
         notes

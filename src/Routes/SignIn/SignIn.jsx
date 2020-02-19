@@ -12,7 +12,7 @@ export default function SignIn (props) {
 
   return (
     <div>
-      <p>Please sign-in:</p>
+      <h2>Please sign-in:</h2>
       <StyledFirebaseAuth uiConfig={FB.uiConfig} firebaseAuth={ FB.auth() }/>
     </div>
   )
